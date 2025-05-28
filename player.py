@@ -1,6 +1,7 @@
 import pygame
 from constants import *
 
+from asteroids import *
 import circleshape
 
 white = (255, 255, 255)
@@ -39,4 +40,11 @@ class Player(circleshape.CircleShape):
             self.move(dt)
         if keys[pygame.K_s]:
             self.move(-dt)
+        if keys[pygame.K_SPACE]:
+            self.shoot()
+
+    def shoot(self):
+      new_shot = Shot(self.position.x, self.position.y)
+      new_shot.velocity = pygame.Vector2(0,1).rotate(self.rotation) * PLAYER_SHOOT_SPEED
+
         
