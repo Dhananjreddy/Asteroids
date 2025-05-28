@@ -9,7 +9,8 @@ white = (255, 255, 255)
 class Player(circleshape.CircleShape):
     def __init__(self, x, y):
         super().__init__(x, y, PLAYER_RADIUS)
-        self.rotation = 0  # Fix: use self
+        self.rotation = 0  
+        self.timer = 0
 
     def triangle(self):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
@@ -31,6 +32,8 @@ class Player(circleshape.CircleShape):
 
     def update(self, dt):
         keys = pygame.key.get_pressed()
+        if self.timer > 0:
+          self.timer -= dt
 
         if keys[pygame.K_a]:
             self.rotate(-dt)
@@ -41,7 +44,11 @@ class Player(circleshape.CircleShape):
         if keys[pygame.K_s]:
             self.move(-dt)
         if keys[pygame.K_SPACE]:
-            self.shoot()
+            if self.timer > 0:
+              pass
+            else:
+              self.shoot()
+              self.timer = PLAYER_SHOOT_COOLDOWN
 
     def shoot(self):
       new_shot = Shot(self.position.x, self.position.y)
